@@ -659,6 +659,7 @@
               <select id="cardioModeSelect">
                 <option value="speed">Speed &times; time</option>
                 <option value="distance">Distance &times; time</option>
+                <option value="speeddist">Speed &times; distance</option>
               </select>
             </div>
             <div>
@@ -666,7 +667,7 @@
               <input type="number" id="cardioValueInput" min="0" step="0.1" />
             </div>
             <div id="cardioTimeContainer">
-              <label for="cardioMinutesInput">Time (minutes)</label>
+              <label id="cardioSecondLabel" for="cardioMinutesInput">Time (minutes)</label>
               <input type="number" id="cardioMinutesInput" min="0" step="1" />
             </div>
           </div>
@@ -1114,8 +1115,14 @@
     if (skillType === "cardio") {
       const mode = cardioMode || "speed";
       let distanceMiles = 0;
+      let effectiveMinutes = minutes;
       if (mode === "distance") {
         distanceMiles = speedOrDistance;
+      } else if (mode === "speeddist") {
+        // speedOrDistance = speed (mph), minutes = distance (miles)
+        const speed = speedOrDistance;
+        distanceMiles = minutes;
+        effectiveMinutes = speed > 0 ? (distanceMiles / speed) * 60 : 0;
       } else {
         distanceMiles = speedOrDistance * (minutes / 60);
       }
@@ -1123,8 +1130,8 @@
 
       if (distanceMiles > 0) {
         let intensityMultiplier = 1;
-        if (minutes > 0) {
-          const pace = minutes / distanceMiles;
+        if (effectiveMinutes > 0) {
+          const pace = effectiveMinutes / distanceMiles;
           let ratio = REF_PACE_MIN_PER_MILE / pace;
           if (!isFinite(ratio) || ratio <= 0) ratio = 1;
           intensityMultiplier = Math.sqrt(ratio);
@@ -1216,6 +1223,9 @@
 
     if (e.skillType === "cardio") {
       const mode = e.cardioMode || (e.minutes > 0 ? "speed" : "distance");
+      if (mode === "speeddist") {
+        return `${e.speed} mph × ${e.minutes} mi`;
+      }
       if (e.minutes > 0) {
         if (mode === "distance") {
           return `${e.speed} mi in ${e.minutes} min`;
@@ -1473,8 +1483,19 @@
 
   function updateCardioModeUI() {
     const mode = cardioModeSelect.value;
-    cardioValueLabel.textContent = mode === "distance" ? "Distance (miles)" : "Speed (mph)";
-    cardioTimeContainer.style.display = "block";
+    if (mode === "distance") {
+      cardioValueLabel.textContent = "Distance (miles)";
+      document.getElementById("cardioSecondLabel").textContent = "Time (minutes)";
+      cardioTimeContainer.style.display = "block";
+    } else if (mode === "speeddist") {
+      cardioValueLabel.textContent = "Speed (mph)";
+      document.getElementById("cardioSecondLabel").textContent = "Distance (miles)";
+      cardioTimeContainer.style.display = "block";
+    } else {
+      cardioValueLabel.textContent = "Speed (mph)";
+      document.getElementById("cardioSecondLabel").textContent = "Time (minutes)";
+      cardioTimeContainer.style.display = "block";
+    }
     updatePreview();
   }
 
@@ -2465,6 +2486,11 @@
       if (cardioMode === "speed") {
         if (speedOrDistance <= 0 || minutes <= 0) {
           alert("Fill speed (mph) and minutes for cardio.");
+          return;
+        }
+      } else if (cardioMode === "speeddist") {
+        if (speedOrDistance <= 0 || minutes <= 0) {
+          alert("Fill speed (mph) and distance (miles) for cardio.");
           return;
         }
       } else {
