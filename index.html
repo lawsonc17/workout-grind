@@ -46,6 +46,25 @@
       min-width: 220px;
     }
 
+    /* User picker */
+    .user-picker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .user-picker select {
+      width: auto;
+      min-width: 120px;
+      padding: 6px 8px;
+      font-size: 0.82rem;
+    }
+    .user-picker button {
+      padding: 6px 10px;
+      font-size: 0.78rem;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
@@ -116,6 +135,11 @@
       background: #111827;
       color: #e5e7eb;
       border: 1px solid #1f2937;
+    }
+    button.danger {
+      background: #7f1d1d;
+      color: #fca5a5;
+      border: 1px solid #991b1b;
     }
 
     .inline-buttons {
@@ -255,6 +279,16 @@
       font-size: 0.7rem;
       cursor: pointer;
     }
+    .template-quicklog-btn {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: none;
+      background: #22c55e;
+      color: #0b1120;
+      font-size: 0.7rem;
+      cursor: pointer;
+      margin-left: 4px;
+    }
 
     hr {
       border: none;
@@ -291,6 +325,7 @@
       font-size: 0.78rem;
       padding: 2px 0;
       border-top: 1px solid #111827;
+      align-items: center;
     }
     .history-entry:first-of-type {
       border-top: none;
@@ -304,6 +339,24 @@
       min-width: 110px;
       text-align: right;
       color: #9ca3af;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+    .delete-entry-btn {
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 2px 4px;
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .delete-entry-btn:hover {
+      color: #ef4444;
+      background: rgba(239,68,68,0.1);
     }
 
     /* History collapse */
@@ -368,6 +421,133 @@
     #statsTableWrapper th {
       font-size: 0.75rem;
     }
+
+    /* Modal overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #1f2937;
+      border-radius: 18px;
+      padding: 24px;
+      min-width: 300px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid #374151;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+    .modal-content h2 {
+      margin-bottom: 12px;
+    }
+    .modal-content input, .modal-content select {
+      margin-bottom: 8px;
+    }
+    .modal-content .row {
+      margin-bottom: 6px;
+    }
+
+    /* Toast */
+    .toast-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 14px;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 999;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      font-size: 0.85rem;
+      max-width: 90%;
+      animation: toastSlideUp 0.3s ease-out;
+    }
+    @keyframes toastSlideUp {
+      from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    .toast-bar .toast-undo-btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      border-radius: 999px;
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Streak widget */
+    .streak-widget {
+      display: flex;
+      gap: 16px;
+      margin-top: 12px;
+      padding: 10px;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid #0f172a;
+      font-size: 0.85rem;
+    }
+    .streak-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .streak-number {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #22c55e;
+    }
+    .streak-label {
+      font-size: 0.7rem;
+      color: #9ca3af;
+    }
+
+    /* Template builder modal exercises list */
+    .tpl-builder-exercise {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 6px;
+      padding: 6px;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #111827;
+    }
+    .tpl-builder-exercise input {
+      margin-bottom: 0;
+    }
+    .tpl-builder-exercise .remove-ex-btn {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 2px 6px;
+      flex-shrink: 0;
+    }
+
+    /* Export/Import area */
+    .settings-section {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #111827;
+    }
+    .settings-section .inline-buttons {
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -376,7 +556,12 @@
       <div class="header-main">
         <div class="header-title">Workout Grind Tracker</div>
         <div class="header-subtitle">
-          Legs / Push / Pull / Core / Cardio / Flexibility → XP → Level 100 is max.
+          Legs / Push / Pull / Core / Cardio / Flexibility &rarr; XP &rarr; Level 100 is Max.
+        </div>
+        <div class="user-picker">
+          <label for="userSelect" style="margin-bottom:0; white-space:nowrap;">User:</label>
+          <select id="userSelect"></select>
+          <button type="button" class="secondary" id="addUserBtn">+ New user</button>
         </div>
       </div>
       <div class="header-settings card" style="padding:10px 12px; border-radius:14px;">
@@ -386,6 +571,14 @@
           Used to estimate load for bodyweight movements (push-ups, pull-ups, dips, etc).
         </div>
         <div id="cloudStatus" class="muted" style="margin-top:4px;font-size:0.7rem;"></div>
+        <div class="settings-section">
+          <div class="muted" style="font-size:0.7rem;">Data management</div>
+          <div class="inline-buttons">
+            <button type="button" class="secondary" id="exportBtn" style="font-size:0.75rem;padding:6px 10px;">Export JSON</button>
+            <button type="button" class="secondary" id="importBtn" style="font-size:0.75rem;padding:6px 10px;">Import JSON</button>
+          </div>
+          <input type="file" id="importFileInput" accept=".json" style="display:none;" />
+        </div>
       </div>
     </div>
 
@@ -434,7 +627,7 @@
                 <option value="Core">Core</option>
                 <option value="Cardio">Cardio</option>
                 <option value="Flexibility">Flexibility</option>
-                <option value="Custom">Custom…</option>
+                <option value="Custom">Custom&hellip;</option>
               </select>
             </div>
             <div id="customSkillWrapper" style="display:none;">
@@ -464,8 +657,8 @@
             <div>
               <label for="cardioModeSelect">Cardio input</label>
               <select id="cardioModeSelect">
-                <option value="speed">Speed × time</option>
-                <option value="distance">Distance × time</option>
+                <option value="speed">Speed &times; time</option>
+                <option value="distance">Distance &times; time</option>
               </select>
             </div>
             <div>
@@ -498,7 +691,7 @@
 
           <div class="inline-buttons">
             <button type="submit">Add entry</button>
-            <button type="button" class="secondary" id="clearAllBtn">Clear all data (local + server)</button>
+            <button type="button" class="secondary" id="clearAllBtn">Clear my data (local)</button>
           </div>
         </form>
       </div>
@@ -514,6 +707,17 @@
         <!-- Overview pane -->
         <div id="overviewPane">
           <div id="skillsContainer" class="skills-grid"></div>
+
+          <div id="streakWidget" class="streak-widget" style="display:none;">
+            <div class="streak-item">
+              <div class="streak-number" id="currentStreakNum">0</div>
+              <div class="streak-label">Current streak (days)</div>
+            </div>
+            <div class="streak-item">
+              <div class="streak-number" id="longestStreakNum">0</div>
+              <div class="streak-label">Longest streak (days)</div>
+            </div>
+          </div>
 
           <h3 style="margin-top:16px; font-size:0.95rem;">Workout history</h3>
           <div id="historyWrapper" class="collapsed">
@@ -555,11 +759,60 @@
 
   const LOCAL_ENTRIES_KEY = "workoutGrindEntries_v3";
   const LOCAL_SETTINGS_KEY = "workoutGrindSettings_v1";
+  const LOCAL_CUSTOM_TEMPLATES_KEY = "workoutGrindCustomTemplates_v1";
+  const LOCAL_DELETED_IDS_KEY = "workoutGrindDeletedIds_v1";
+
+  const USER_CURRENT_KEY = "workoutGrind_currentUser";
+  const USER_KNOWN_KEY = "workoutGrind_knownUsers";
 
   const MAX_LEVEL = 100;
-  const XP_SCALE = 5; // tuned so L100 ~ long grind
+  const XP_SCALE = 5;
   const BASE_XP_PER_MILE = 25;
-  const REF_PACE_MIN_PER_MILE = 10; // reference pace for cardio intensity
+  const REF_PACE_MIN_PER_MILE = 10;
+
+  // ===== Multi-User =====
+  let currentUser = "";
+
+  function getKnownUsers() {
+    try {
+      const raw = localStorage.getItem(USER_KNOWN_KEY);
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch { return []; }
+  }
+
+  function saveKnownUsers(users) {
+    localStorage.setItem(USER_KNOWN_KEY, JSON.stringify(users));
+  }
+
+  function getUserKey(baseKey) {
+    return baseKey + "__" + currentUser;
+  }
+
+  function hasLegacyData() {
+    return localStorage.getItem(LOCAL_ENTRIES_KEY) !== null ||
+           localStorage.getItem(LOCAL_SETTINGS_KEY) !== null;
+  }
+
+  function migrateLegacyData(username) {
+    const oldEntries = localStorage.getItem(LOCAL_ENTRIES_KEY);
+    const oldSettings = localStorage.getItem(LOCAL_SETTINGS_KEY);
+    const oldTemplates = localStorage.getItem(LOCAL_CUSTOM_TEMPLATES_KEY);
+
+    if (oldEntries !== null) {
+      localStorage.setItem(LOCAL_ENTRIES_KEY + "__" + username, oldEntries);
+      localStorage.removeItem(LOCAL_ENTRIES_KEY);
+    }
+    if (oldSettings !== null) {
+      localStorage.setItem(LOCAL_SETTINGS_KEY + "__" + username, oldSettings);
+      localStorage.removeItem(LOCAL_SETTINGS_KEY);
+    }
+    if (oldTemplates !== null) {
+      localStorage.setItem(LOCAL_CUSTOM_TEMPLATES_KEY + "__" + username, oldTemplates);
+      localStorage.removeItem(LOCAL_CUSTOM_TEMPLATES_KEY);
+    }
+  }
 
   // ===== Templates =====
   const defaultTemplates = [
@@ -632,6 +885,17 @@
         { name: "Run", prescription: "cardio:6.5x5" },
         { name: "Static stretch worked muscles", prescription: "flex:3x10" }
       ]
+    },
+    {
+      name: "Everything Workout",
+      defaultSkill: "Pull",
+      exercises: [
+        { name: "Chin ups", prescription: "3x10xBW" },
+        { name: "Push ups", prescription: "3x10xBW" },
+        { name: "Goblet squats", prescription: "3x10x50" },
+        { name: "Delt raises", prescription: "3x10x15" },
+        { name: "Run", prescription: "cardio:6.5x15" }
+      ]
     }
   ];
 
@@ -674,10 +938,10 @@
     return "strength";
   }
 
-  // ===== Storage =====
+  // ===== Storage (per-user namespaced) =====
   function loadSettings() {
     try {
-      const raw = localStorage.getItem(LOCAL_SETTINGS_KEY);
+      const raw = localStorage.getItem(getUserKey(LOCAL_SETTINGS_KEY));
       if (!raw) return { bodyweight: 180 };
       const s = JSON.parse(raw);
       if (!s || typeof s !== "object") return { bodyweight: 180 };
@@ -689,12 +953,12 @@
   }
 
   function saveSettings(settings) {
-    localStorage.setItem(LOCAL_SETTINGS_KEY, JSON.stringify(settings));
+    localStorage.setItem(getUserKey(LOCAL_SETTINGS_KEY), JSON.stringify(settings));
   }
 
   function loadEntriesLocal() {
     try {
-      const raw = localStorage.getItem(LOCAL_ENTRIES_KEY);
+      const raw = localStorage.getItem(getUserKey(LOCAL_ENTRIES_KEY));
       if (!raw) return [];
       const arr = JSON.parse(raw);
       return Array.isArray(arr) ? arr : [];
@@ -704,7 +968,37 @@
   }
 
   function saveEntriesLocal(entries) {
-    localStorage.setItem(LOCAL_ENTRIES_KEY, JSON.stringify(entries));
+    localStorage.setItem(getUserKey(LOCAL_ENTRIES_KEY), JSON.stringify(entries));
+  }
+
+  function loadCustomTemplates() {
+    try {
+      const raw = localStorage.getItem(getUserKey(LOCAL_CUSTOM_TEMPLATES_KEY));
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveCustomTemplates(templates) {
+    localStorage.setItem(getUserKey(LOCAL_CUSTOM_TEMPLATES_KEY), JSON.stringify(templates));
+  }
+
+  function loadDeletedIds() {
+    try {
+      const raw = localStorage.getItem(getUserKey(LOCAL_DELETED_IDS_KEY));
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveDeletedIds(ids) {
+    localStorage.setItem(getUserKey(LOCAL_DELETED_IDS_KEY), JSON.stringify(ids));
   }
 
   function normalizeEntryFromServer(raw) {
@@ -722,13 +1016,14 @@
       minutes: Number(raw.minutes) || 0,
       volume: Number(raw.volume) || 0,
       xp: Number(raw.xp) || 0,
-      cardioMode: raw.cardioMode || null
+      cardioMode: raw.cardioMode || null,
+      user: raw.user || ""
     };
   }
 
   async function fetchEntriesFromServer() {
     if (!SERVER_URL) return null;
-    setCloudStatus("Cloud sync: connecting…");
+    setCloudStatus("Cloud sync: connecting...");
     try {
       const res = await fetch(SERVER_URL + "?mode=list");
       if (!res.ok) throw new Error("Server error");
@@ -738,7 +1033,9 @@
         return null;
       }
       setCloudStatus("Cloud sync: connected");
-      return data.map(normalizeEntryFromServer);
+      const all = data.map(normalizeEntryFromServer);
+      // Filter to current user's entries and legacy entries (no user field)
+      return all.filter(e => e.user === currentUser || e.user === "");
     } catch (err) {
       console.error(err);
       setCloudStatus("Cloud sync: local only (could not reach server)");
@@ -746,7 +1043,7 @@
     }
   }
 
-  // ===== Server writes (use text/plain to dodge CORS preflight) =====
+  // ===== Server writes =====
   async function saveEntryToServer(entry) {
     if (!SERVER_URL) return;
     try {
@@ -808,15 +1105,8 @@
   }
 
   function computeVolumeAndXp(
-    skillType,
-    sets,
-    reps,
-    weight,
-    speedOrDistance,
-    minutes,
-    exerciseName,
-    bodyweight,
-    cardioMode
+    skillType, sets, reps, weight, speedOrDistance, minutes,
+    exerciseName, bodyweight, cardioMode
   ) {
     let volume = 0;
     let xp = 0;
@@ -842,8 +1132,6 @@
           if (intensityMultiplier > 1.5) intensityMultiplier = 1.5;
         }
         xp = Math.round(distanceMiles * BASE_XP_PER_MILE * intensityMultiplier);
-      } else {
-        xp = 0;
       }
     } else if (skillType === "flexibility") {
       volume = sets * reps;
@@ -874,15 +1162,9 @@
       }
 
       const { volume, xp } = computeVolumeAndXp(
-        skillType,
-        e.sets || 0,
-        e.reps || 0,
-        e.weight || 0,
-        e.speed || 0,
-        e.minutes || 0,
-        e.exercise || "",
-        settings.bodyweight,
-        cardioMode
+        skillType, e.sets || 0, e.reps || 0, e.weight || 0,
+        e.speed || 0, e.minutes || 0, e.exercise || "",
+        settings.bodyweight, cardioMode
       );
 
       e.skillType = skillType;
@@ -929,35 +1211,33 @@
     return { sets, reps };
   }
 
-function formatEntryDetails(e) {
-  if (!e) return "";
+  function formatEntryDetails(e) {
+    if (!e) return "";
 
-  if (e.skillType === "cardio") {
-    const mode = e.cardioMode || (e.minutes > 0 ? "speed" : "distance");
-    if (e.minutes > 0) {
-      if (mode === "distance") {
-        return `${e.speed} mi in ${e.minutes} min`;
+    if (e.skillType === "cardio") {
+      const mode = e.cardioMode || (e.minutes > 0 ? "speed" : "distance");
+      if (e.minutes > 0) {
+        if (mode === "distance") {
+          return `${e.speed} mi in ${e.minutes} min`;
+        }
+        return `${e.speed} mph × ${e.minutes} min`;
       }
-      return `${e.speed} mph × ${e.minutes} min`;
+      if (mode === "distance") {
+        return `${e.speed} mi`;
+      }
+      return `${e.speed} mph`;
     }
-    if (mode === "distance") {
-      return `${e.speed} mi`;
+
+    if (e.skillType === "flexibility") {
+      return `${e.sets} × ${e.reps}`;
     }
-    return `${e.speed} mph`;
-  }
 
-  if (e.skillType === "flexibility") {
-    return `${e.sets} × ${e.reps}`;
-  }
+    if (e.weight > 0) {
+      return `${e.sets} × ${e.reps} × ${e.weight}`;
+    }
 
-  // strength
-  if (e.weight > 0) {
-    return `${e.sets} × ${e.reps} × ${e.weight}`;
+    return `${e.sets} × ${e.reps} × BW`;
   }
-
-  // Treat 0/blank weight as bodyweight
-  return `${e.sets} × ${e.reps} × BW`;
-}
 
   // ===== DOM refs =====
   const dateInput = document.getElementById("dateInput");
@@ -1003,18 +1283,131 @@ function formatEntryDetails(e) {
   const statsTableWrapper = document.getElementById("statsTableWrapper");
   const statsSkillBars = document.getElementById("statsSkillBars");
 
+  const userSelect = document.getElementById("userSelect");
+  const addUserBtn = document.getElementById("addUserBtn");
+  const exportBtn = document.getElementById("exportBtn");
+  const importBtn = document.getElementById("importBtn");
+  const importFileInput = document.getElementById("importFileInput");
+  const streakWidget = document.getElementById("streakWidget");
+  const currentStreakNum = document.getElementById("currentStreakNum");
+  const longestStreakNum = document.getElementById("longestStreakNum");
+
   // ===== runtime state =====
   const entries = [];
+  let deletedIds = [];
+  let customTemplates = [];
   let lastByExercise = {};
-  let settings = loadSettings();
+  let settings = { bodyweight: 180 };
   let prevSkillTotals = {};
   let prevSkillLevels = {};
   let hasRenderedSkillsOnce = false;
   let historyExpanded = false;
+  let toastTimeout = null;
 
   dateInput.valueAsNumber = Date.now() - new Date().getTimezoneOffset() * 60000;
 
-  bodyweightInput.value = settings.bodyweight;
+  if (!SERVER_URL) {
+    setCloudStatus("Cloud sync: off (local only)");
+  }
+
+  // ===== User picker =====
+  function populateUserSelect() {
+    const users = getKnownUsers();
+    userSelect.innerHTML = "";
+    users.forEach(u => {
+      const opt = document.createElement("option");
+      opt.value = u;
+      opt.textContent = u;
+      if (u === currentUser) opt.selected = true;
+      userSelect.appendChild(opt);
+    });
+  }
+
+  userSelect.addEventListener("change", () => {
+    const selected = userSelect.value;
+    if (selected && selected !== currentUser) {
+      currentUser = selected;
+      localStorage.setItem(USER_CURRENT_KEY, currentUser);
+      reloadForCurrentUser();
+    }
+  });
+
+  addUserBtn.addEventListener("click", () => {
+    showNewUserModal(false);
+  });
+
+  function showNewUserModal(isFirstTime) {
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+    overlay.innerHTML = `
+      <div class="modal-content">
+        <h2>${isFirstTime ? "Welcome! Enter your name" : "Add new user"}</h2>
+        <label for="modalNameInput">Your name</label>
+        <input type="text" id="modalNameInput" placeholder="e.g. Alice" autofocus />
+        <div style="margin-top:12px; display:flex; gap:8px;">
+          <button type="button" id="modalConfirmBtn">Confirm</button>
+          ${isFirstTime ? "" : '<button type="button" class="secondary" id="modalCancelBtn">Cancel</button>'}
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const nameInput = overlay.querySelector("#modalNameInput");
+    const confirmBtn = overlay.querySelector("#modalConfirmBtn");
+    const cancelBtn = overlay.querySelector("#modalCancelBtn");
+
+    nameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") confirmBtn.click();
+    });
+
+    confirmBtn.addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      if (!name) {
+        nameInput.style.borderColor = "#ef4444";
+        return;
+      }
+      const users = getKnownUsers();
+      if (!users.includes(name)) {
+        users.push(name);
+        saveKnownUsers(users);
+      }
+
+      // If first time and legacy data exists, migrate it
+      if (isFirstTime && hasLegacyData()) {
+        migrateLegacyData(name);
+      }
+
+      currentUser = name;
+      localStorage.setItem(USER_CURRENT_KEY, currentUser);
+      overlay.remove();
+      populateUserSelect();
+      reloadForCurrentUser();
+    });
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", () => {
+        overlay.remove();
+      });
+    }
+  }
+
+  function reloadForCurrentUser() {
+    // Reset runtime state
+    entries.splice(0, entries.length);
+    lastByExercise = {};
+    prevSkillTotals = {};
+    prevSkillLevels = {};
+    hasRenderedSkillsOnce = false;
+
+    settings = loadSettings();
+    bodyweightInput.value = settings.bodyweight;
+    deletedIds = loadDeletedIds();
+    customTemplates = loadCustomTemplates();
+    initTemplates();
+    initAppData();
+  }
+
+  // ===== Bodyweight =====
   bodyweightInput.addEventListener("input", () => {
     const v = parseFloat(bodyweightInput.value);
     if (Number.isFinite(v) && v > 0) {
@@ -1022,10 +1415,6 @@ function formatEntryDetails(e) {
       saveSettings(settings);
     }
   });
-
-  if (!SERVER_URL) {
-    setCloudStatus("Cloud sync: off (local only)");
-  }
 
   function rebuildLastByExercise() {
     lastByExercise = {};
@@ -1066,11 +1455,7 @@ function formatEntryDetails(e) {
     const val = skillInput.value;
     const type = getSkillTypeFromSelectValue(val);
 
-    if (val === "Custom") {
-      customSkillWrapper.style.display = "block";
-    } else {
-      customSkillWrapper.style.display = "none";
-    }
+    customSkillWrapper.style.display = val === "Custom" ? "block" : "none";
 
     if (type === "cardio") {
       rowStrength.style.display = "none";
@@ -1083,20 +1468,12 @@ function formatEntryDetails(e) {
       rowCardio.style.display = "none";
     }
 
-    if (type === "flexibility") {
-      weightContainer.style.display = "none";
-    } else {
-      weightContainer.style.display = "block";
-    }
+    weightContainer.style.display = type === "flexibility" ? "none" : "block";
   }
 
   function updateCardioModeUI() {
     const mode = cardioModeSelect.value;
-    if (mode === "distance") {
-      cardioValueLabel.textContent = "Distance (miles)";
-    } else {
-      cardioValueLabel.textContent = "Speed (mph)";
-    }
+    cardioValueLabel.textContent = mode === "distance" ? "Distance (miles)" : "Speed (mph)";
     cardioTimeContainer.style.display = "block";
     updatePreview();
   }
@@ -1120,15 +1497,8 @@ function formatEntryDetails(e) {
     }
 
     const { volume, xp } = computeVolumeAndXp(
-      type,
-      sets,
-      reps,
-      weight,
-      speedOrDistance,
-      minutes,
-      exerciseInput.value,
-      settings.bodyweight,
-      cardioMode
+      type, sets, reps, weight, speedOrDistance, minutes,
+      exerciseInput.value, settings.bodyweight, cardioMode
     );
     volumePreview.value = volume > 0 ? volume.toFixed(2) : "";
     xpPreview.value = xp > 0 ? xp.toString() : "";
@@ -1194,10 +1564,7 @@ function formatEntryDetails(e) {
       const prevNext = totalXpForLevel(Math.min(prevLevel + 1, MAX_LEVEL));
       let prevPct = 0;
       if (prevNext > prevCurrent) {
-        prevPct = Math.min(
-          100,
-          Math.max(0, ((prevXp - prevCurrent) / (prevNext - prevCurrent)) * 100)
-        );
+        prevPct = Math.min(100, Math.max(0, ((prevXp - prevCurrent) / (prevNext - prevCurrent)) * 100));
       }
 
       const div = document.createElement("div");
@@ -1251,6 +1618,73 @@ function formatEntryDetails(e) {
     hasRenderedSkillsOnce = true;
   }
 
+  // ===== Streak tracker =====
+  function computeStreaks() {
+    if (!entries.length) return { current: 0, longest: 0 };
+
+    const uniqueDates = [...new Set(entries.map(e => e.date).filter(Boolean))].sort();
+    if (!uniqueDates.length) return { current: 0, longest: 0 };
+
+    // Convert to date objects for comparison
+    function toDateObj(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return new Date(y, m - 1, d);
+    }
+
+    function daysBetween(d1, d2) {
+      const ms = d2.getTime() - d1.getTime();
+      return Math.round(ms / (1000 * 60 * 60 * 24));
+    }
+
+    let longest = 1;
+    let currentStreak = 1;
+
+    for (let i = 1; i < uniqueDates.length; i++) {
+      const prev = toDateObj(uniqueDates[i - 1]);
+      const curr = toDateObj(uniqueDates[i]);
+      if (daysBetween(prev, curr) === 1) {
+        currentStreak++;
+      } else {
+        currentStreak = 1;
+      }
+      if (currentStreak > longest) longest = currentStreak;
+    }
+
+    // Check if current streak is still active (last workout date is today or yesterday)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const lastWorkout = toDateObj(uniqueDates[uniqueDates.length - 1]);
+    const daysSinceLast = daysBetween(lastWorkout, today);
+
+    let activeStreak = 0;
+    if (daysSinceLast <= 1) {
+      // Count backwards from the end
+      activeStreak = 1;
+      for (let i = uniqueDates.length - 2; i >= 0; i--) {
+        const prev = toDateObj(uniqueDates[i]);
+        const curr = toDateObj(uniqueDates[i + 1]);
+        if (daysBetween(prev, curr) === 1) {
+          activeStreak++;
+        } else {
+          break;
+        }
+      }
+    }
+
+    return { current: activeStreak, longest };
+  }
+
+  function renderStreaks() {
+    const { current, longest } = computeStreaks();
+    if (!entries.length) {
+      streakWidget.style.display = "none";
+      return;
+    }
+    streakWidget.style.display = "flex";
+    currentStreakNum.textContent = current;
+    longestStreakNum.textContent = longest;
+  }
+
   function niceDateLabel(dateStr) {
     if (!dateStr) return "";
     const parts = dateStr.split("-");
@@ -1285,6 +1719,22 @@ function formatEntryDetails(e) {
     historyExpanded = !historyExpanded;
     updateHistoryToggle();
   });
+
+  // ===== Delete entry =====
+  function deleteEntry(entryId) {
+    if (!confirm("Delete this entry?")) return;
+    const idx = entries.findIndex(e => e.id === entryId);
+    if (idx !== -1) {
+      entries.splice(idx, 1);
+      saveEntriesLocal(entries);
+    }
+    // Also track the ID so server entries stay hidden
+    if (!deletedIds.includes(entryId)) {
+      deletedIds.push(entryId);
+      saveDeletedIds(deletedIds);
+    }
+    renderAll();
+  }
 
   function renderHistory() {
     historyContainer.innerHTML = "";
@@ -1331,9 +1781,12 @@ function formatEntryDetails(e) {
             <span class="muted">(${formatEntryDetails(e)})</span>
           </div>
           <div class="history-entry-extra">
-            Vol ${e.volume.toFixed(2)} · ${e.xp.toLocaleString()} XP
+            <span>Vol ${e.volume.toFixed(2)} · ${e.xp.toLocaleString()} XP</span>
+            <button type="button" class="delete-entry-btn" title="Delete entry">&times;</button>
           </div>
         `;
+        const deleteBtn = row.querySelector(".delete-entry-btn");
+        deleteBtn.addEventListener("click", () => deleteEntry(e.id));
         dayDiv.appendChild(row);
       }
 
@@ -1412,7 +1865,7 @@ function formatEntryDetails(e) {
       nameLabel.setAttribute("text-anchor", "middle");
       nameLabel.setAttribute("font-size", "8");
       nameLabel.setAttribute("fill", "#9ca3af");
-      const shortName = g.skill.length > 8 ? g.skill.slice(0, 7) + "…" : g.skill;
+      const shortName = g.skill.length > 8 ? g.skill.slice(0, 7) + "\u2026" : g.skill;
       nameLabel.textContent = shortName;
       svg.appendChild(nameLabel);
     });
@@ -1503,13 +1956,11 @@ function formatEntryDetails(e) {
     const plotHeight = height - paddingTop - paddingBottom;
 
     const maxVol = Math.max(...series.map(p => p.volume));
-    const minVol = 0;
 
     const points = series.map((p, idx) => {
-      const x =
-        paddingLeft +
+      const x = paddingLeft +
         (series.length === 1 ? plotWidth / 2 : (plotWidth * idx) / (series.length - 1));
-      const ratio = (p.volume - minVol) / (maxVol - minVol || 1);
+      const ratio = (p.volume - 0) / (maxVol || 1);
       const y = paddingTop + (plotHeight * (1 - ratio));
       return { x, y, date: p.date, volume: p.volume };
     });
@@ -1580,11 +2031,13 @@ function formatEntryDetails(e) {
   function renderAll() {
     rebuildLastByExercise();
     renderSkills();
+    renderStreaks();
     renderHistory();
     renderTemplateExercises(templateSelect.value || "");
     renderStatsPanel();
   }
 
+  // ===== Template exercise fill =====
   function fillFromTemplateExercise(tpl, ex) {
     workoutInput.value = tpl.name;
     exerciseInput.value = ex.name || "";
@@ -1648,13 +2101,71 @@ function formatEntryDetails(e) {
     exerciseInput.focus();
   }
 
-  function renderTemplateExercises(index) {
-    if (index === "" || index == null) {
+  // ===== Quick log =====
+  function quickLogExercise(tpl, ex) {
+    const key = (ex.name || "").toLowerCase();
+    const last = lastByExercise[key];
+    if (!last) return;
+
+    const today = dateInput.value || new Date().toISOString().slice(0, 10);
+
+    const entry = {
+      id: Date.now(),
+      date: today,
+      workout: tpl.name,
+      skill: last.skill,
+      skillType: last.skillType,
+      exercise: last.exercise,
+      sets: last.sets,
+      reps: last.reps,
+      weight: last.weight,
+      speed: last.speed,
+      minutes: last.minutes,
+      volume: last.volume,
+      xp: last.xp,
+      cardioMode: last.cardioMode,
+      user: currentUser
+    };
+
+    // Recalc with current bodyweight
+    const { volume, xp } = computeVolumeAndXp(
+      entry.skillType, entry.sets, entry.reps, entry.weight,
+      entry.speed, entry.minutes, entry.exercise,
+      settings.bodyweight, entry.cardioMode
+    );
+    entry.volume = volume;
+    entry.xp = xp;
+
+    entries.push(entry);
+    saveEntriesLocal(entries);
+    saveEntryToServer(entry);
+    renderAll();
+    showToast(entry);
+  }
+
+  function renderTemplateExercises(templateValue) {
+    if (templateValue === "" || templateValue == null) {
       templateExercisesDiv.innerHTML = '<div class="muted">Select a routine above.</div>';
       return;
     }
-    const idx = parseInt(index, 10);
-    const tpl = defaultTemplates[idx];
+
+    if (templateValue === "__create__") {
+      showTemplateBuilderModal();
+      // Reset selection
+      templateSelect.value = "";
+      templateExercisesDiv.innerHTML = '<div class="muted">Select a routine above.</div>';
+      return;
+    }
+
+    let tpl = null;
+    if (templateValue.startsWith("builtin_")) {
+      const idx = parseInt(templateValue.slice(8), 10);
+      tpl = defaultTemplates[idx];
+    } else if (templateValue.startsWith("custom_tpl_")) {
+      const id = templateValue.slice(11);
+      tpl = customTemplates.find(t => String(t.id) === id);
+    }
+
     if (!tpl || !tpl.exercises || !tpl.exercises.length) {
       templateExercisesDiv.innerHTML = '<div class="muted">No exercises defined for this routine yet.</div>';
       return;
@@ -1675,28 +2186,246 @@ function formatEntryDetails(e) {
         <div><strong>${ex.name}</strong></div>
         <div class="template-prescription">Template: ${ex.prescription || ""}</div>
         <div class="template-last">${lastText}</div>
-        <button type="button" class="template-use-btn">Use in form</button>
+        <div>
+          <button type="button" class="template-use-btn">Use in form</button>
+          ${last ? '<button type="button" class="template-quicklog-btn">Quick log</button>' : ''}
+        </div>
       `;
-      const btn = card.querySelector("button");
-      btn.addEventListener("click", () => fillFromTemplateExercise(tpl, ex));
+      const useBtn = card.querySelector(".template-use-btn");
+      useBtn.addEventListener("click", () => fillFromTemplateExercise(tpl, ex));
+
+      const quickBtn = card.querySelector(".template-quicklog-btn");
+      if (quickBtn) {
+        quickBtn.addEventListener("click", () => quickLogExercise(tpl, ex));
+      }
+
       templateExercisesDiv.appendChild(card);
     });
   }
 
+  // ===== Template dropdown (with optgroups) =====
   function initTemplates() {
-    templateSelect.innerHTML = '<option value="">Pick a routine…</option>';
+    templateSelect.innerHTML = '<option value="">Pick a routine...</option>';
+
+    // Built-in routines
+    const builtinGroup = document.createElement("optgroup");
+    builtinGroup.label = "Built-in routines";
     defaultTemplates.forEach((tpl, idx) => {
       const opt = document.createElement("option");
-      opt.value = String(idx);
+      opt.value = "builtin_" + idx;
       opt.textContent = tpl.name;
-      templateSelect.appendChild(opt);
+      builtinGroup.appendChild(opt);
     });
-    templateSelect.addEventListener("change", () => {
-      renderTemplateExercises(templateSelect.value);
-    });
+    templateSelect.appendChild(builtinGroup);
+
+    // Custom routines
+    if (customTemplates.length) {
+      const customGroup = document.createElement("optgroup");
+      customGroup.label = "My routines";
+      customTemplates.forEach(tpl => {
+        const opt = document.createElement("option");
+        opt.value = "custom_tpl_" + tpl.id;
+        opt.textContent = tpl.name;
+        customGroup.appendChild(opt);
+      });
+      templateSelect.appendChild(customGroup);
+    }
+
+    // Create new option
+    const createOpt = document.createElement("option");
+    createOpt.value = "__create__";
+    createOpt.textContent = "+ Create new routine...";
+    templateSelect.appendChild(createOpt);
+
+    templateSelect.removeEventListener("change", handleTemplateChange);
+    templateSelect.addEventListener("change", handleTemplateChange);
     renderTemplateExercises("");
   }
 
+  function handleTemplateChange() {
+    renderTemplateExercises(templateSelect.value);
+  }
+
+  // ===== Template builder modal =====
+  function showTemplateBuilderModal(editTemplate) {
+    const isEdit = !!editTemplate;
+    const overlay = document.createElement("div");
+    overlay.className = "modal-overlay";
+
+    let exerciseRows = isEdit
+      ? editTemplate.exercises.map(e => ({ name: e.name, prescription: e.prescription }))
+      : [{ name: "", prescription: "" }];
+
+    function renderExerciseList() {
+      const container = overlay.querySelector("#tplBuilderExercises");
+      if (!container) return;
+      container.innerHTML = "";
+      exerciseRows.forEach((ex, i) => {
+        const row = document.createElement("div");
+        row.className = "tpl-builder-exercise";
+        row.innerHTML = `
+          <div style="flex:2;">
+            <input type="text" placeholder="Exercise name" value="${ex.name.replace(/"/g, '&quot;')}" data-idx="${i}" data-field="name" />
+          </div>
+          <div style="flex:2;">
+            <input type="text" placeholder="e.g. 3x10x135 or cardio:6.5x15" value="${ex.prescription.replace(/"/g, '&quot;')}" data-idx="${i}" data-field="prescription" />
+          </div>
+          <button type="button" class="remove-ex-btn" data-idx="${i}">&times;</button>
+        `;
+        container.appendChild(row);
+      });
+
+      // Wire up inputs
+      container.querySelectorAll("input").forEach(inp => {
+        inp.addEventListener("input", () => {
+          const idx = parseInt(inp.dataset.idx, 10);
+          exerciseRows[idx][inp.dataset.field] = inp.value;
+        });
+      });
+      container.querySelectorAll(".remove-ex-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.dataset.idx, 10);
+          if (exerciseRows.length > 1) {
+            exerciseRows.splice(idx, 1);
+            renderExerciseList();
+          }
+        });
+      });
+    }
+
+    overlay.innerHTML = `
+      <div class="modal-content">
+        <h2>${isEdit ? "Edit routine" : "Create new routine"}</h2>
+        <label>Routine name</label>
+        <input type="text" id="tplBuilderName" value="${isEdit ? editTemplate.name.replace(/"/g, '&quot;') : ''}" placeholder="e.g. Full Body A" />
+        <label>Default skill</label>
+        <select id="tplBuilderSkill">
+          <option value="Legs">Legs</option>
+          <option value="Push">Push</option>
+          <option value="Pull">Pull</option>
+          <option value="Core">Core</option>
+          <option value="Cardio">Cardio</option>
+          <option value="Flexibility">Flexibility</option>
+        </select>
+        <label style="margin-top:8px;">Exercises</label>
+        <div class="muted" style="font-size:0.7rem; margin-bottom:4px;">
+          Prescription formats: <code>3x10x135</code> (strength), <code>3x10xBW</code> (bodyweight),
+          <code>cardio:6.5x15</code> (speed x min), <code>flex:3x10</code> (sets x reps)
+        </div>
+        <div id="tplBuilderExercises"></div>
+        <button type="button" class="secondary" id="tplAddExBtn" style="margin-top:6px; font-size:0.8rem; padding:6px 10px;">+ Add exercise</button>
+        <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" id="tplSaveBtn">${isEdit ? "Save changes" : "Create routine"}</button>
+          ${isEdit ? '<button type="button" class="danger" id="tplDeleteBtn">Delete routine</button>' : ''}
+          <button type="button" class="secondary" id="tplCancelBtn">Cancel</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    if (isEdit) {
+      overlay.querySelector("#tplBuilderSkill").value = editTemplate.defaultSkill || "Push";
+    }
+
+    renderExerciseList();
+
+    overlay.querySelector("#tplAddExBtn").addEventListener("click", () => {
+      exerciseRows.push({ name: "", prescription: "" });
+      renderExerciseList();
+    });
+
+    overlay.querySelector("#tplSaveBtn").addEventListener("click", () => {
+      const name = overlay.querySelector("#tplBuilderName").value.trim();
+      const defaultSkill = overlay.querySelector("#tplBuilderSkill").value;
+      const exercises = exerciseRows
+        .filter(e => e.name.trim())
+        .map(e => ({ name: e.name.trim(), prescription: e.prescription.trim() }));
+
+      if (!name) {
+        alert("Please enter a routine name.");
+        return;
+      }
+      if (!exercises.length) {
+        alert("Add at least one exercise.");
+        return;
+      }
+
+      if (isEdit) {
+        const tpl = customTemplates.find(t => t.id === editTemplate.id);
+        if (tpl) {
+          tpl.name = name;
+          tpl.defaultSkill = defaultSkill;
+          tpl.exercises = exercises;
+        }
+      } else {
+        customTemplates.push({
+          id: Date.now(),
+          name,
+          defaultSkill,
+          exercises
+        });
+      }
+
+      saveCustomTemplates(customTemplates);
+      overlay.remove();
+      initTemplates();
+    });
+
+    const deleteBtn = overlay.querySelector("#tplDeleteBtn");
+    if (deleteBtn) {
+      deleteBtn.addEventListener("click", () => {
+        if (!confirm("Delete this routine?")) return;
+        customTemplates = customTemplates.filter(t => t.id !== editTemplate.id);
+        saveCustomTemplates(customTemplates);
+        overlay.remove();
+        initTemplates();
+      });
+    }
+
+    overlay.querySelector("#tplCancelBtn").addEventListener("click", () => {
+      overlay.remove();
+    });
+  }
+
+  // ===== Toast with undo =====
+  function showToast(entry) {
+    // Remove existing toast
+    const existing = document.querySelector(".toast-bar");
+    if (existing) existing.remove();
+    if (toastTimeout) clearTimeout(toastTimeout);
+
+    const toast = document.createElement("div");
+    toast.className = "toast-bar";
+    toast.innerHTML = `
+      <span>Logged <strong>${entry.exercise}</strong> — ${formatEntryDetails(entry)} — +${entry.xp} XP</span>
+      <button type="button" class="toast-undo-btn">Undo</button>
+    `;
+    document.body.appendChild(toast);
+
+    const undoBtn = toast.querySelector(".toast-undo-btn");
+    undoBtn.addEventListener("click", () => {
+      // Remove the entry
+      const idx = entries.findIndex(e => e.id === entry.id);
+      if (idx !== -1) {
+        entries.splice(idx, 1);
+        saveEntriesLocal(entries);
+        // Track as deleted so server copy is hidden
+        if (!deletedIds.includes(entry.id)) {
+          deletedIds.push(entry.id);
+          saveDeletedIds(deletedIds);
+        }
+        renderAll();
+      }
+      toast.remove();
+      if (toastTimeout) clearTimeout(toastTimeout);
+    });
+
+    toastTimeout = setTimeout(() => {
+      toast.remove();
+    }, 5000);
+  }
+
+  // ===== Tabs =====
   tabOverviewBtn.addEventListener("click", () => {
     tabOverviewBtn.classList.add("active");
     tabStatsBtn.classList.remove("active");
@@ -1712,6 +2441,7 @@ function formatEntryDetails(e) {
     renderStatsPanel();
   });
 
+  // ===== Log form submit =====
   logForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const date = dateInput.value;
@@ -1760,15 +2490,8 @@ function formatEntryDetails(e) {
     }
 
     const { volume, xp } = computeVolumeAndXp(
-      skillType,
-      sets,
-      reps,
-      weight,
-      speedOrDistance,
-      minutes,
-      exercise,
-      settings.bodyweight,
-      cardioMode
+      skillType, sets, reps, weight, speedOrDistance, minutes,
+      exercise, settings.bodyweight, cardioMode
     );
 
     const entry = {
@@ -1785,13 +2508,15 @@ function formatEntryDetails(e) {
       minutes,
       volume,
       xp,
-      cardioMode: skillType === "cardio" ? cardioMode : null
+      cardioMode: skillType === "cardio" ? cardioMode : null,
+      user: currentUser
     };
 
     entries.push(entry);
     saveEntriesLocal(entries);
     saveEntryToServer(entry);
     renderAll();
+    showToast(entry);
 
     exerciseInput.value = "";
     setsInput.value = "";
@@ -1803,21 +2528,93 @@ function formatEntryDetails(e) {
     xpPreview.value = "";
   });
 
+  // ===== Clear data (scoped to current user) =====
   clearAllBtn.addEventListener("click", async () => {
-    if (!confirm("Clear all local data and (if configured) server data?")) return;
+    if (!confirm(`Clear all local data for "${currentUser}"?`)) return;
     entries.splice(0, entries.length);
     saveEntriesLocal(entries);
-    await clearServerEntries();
+    deletedIds = [];
+    saveDeletedIds(deletedIds);
     renderAll();
   });
 
+  // ===== Export / Import =====
+  exportBtn.addEventListener("click", () => {
+    const data = {
+      user: currentUser,
+      entries: entries,
+      settings: settings,
+      customTemplates: customTemplates,
+      deletedIds: deletedIds,
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `workout-grind-${currentUser}-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  importBtn.addEventListener("click", () => {
+    importFileInput.click();
+  });
+
+  importFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (!data || !Array.isArray(data.entries)) {
+          alert("Invalid backup file.");
+          return;
+        }
+        if (!confirm(`Import ${data.entries.length} entries for "${currentUser}"? This will replace your current data.`)) {
+          return;
+        }
+
+        entries.splice(0, entries.length, ...data.entries);
+        saveEntriesLocal(entries);
+
+        if (data.settings) {
+          settings = data.settings;
+          saveSettings(settings);
+          bodyweightInput.value = settings.bodyweight;
+        }
+
+        if (Array.isArray(data.customTemplates)) {
+          customTemplates = data.customTemplates;
+          saveCustomTemplates(customTemplates);
+          initTemplates();
+        }
+
+        if (Array.isArray(data.deletedIds)) {
+          deletedIds = data.deletedIds;
+          saveDeletedIds(deletedIds);
+        }
+
+        recalcEntriesUsingCurrentFormulas(entries);
+        renderAll();
+        alert("Import complete!");
+      } catch (err) {
+        alert("Failed to read file: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+    importFileInput.value = "";
+  });
+
   // ===== Init =====
-  async function initApp() {
+  async function initAppData() {
     updateSkillModeUI();
     updateCardioModeUI();
-    initTemplates();
 
     const local = loadEntriesLocal();
+    deletedIds = loadDeletedIds();
     let loaded = [];
     const server = await fetchEntriesFromServer();
 
@@ -1836,13 +2633,49 @@ function formatEntryDetails(e) {
       }
     }
 
+    // Filter out deleted entries
+    if (deletedIds.length) {
+      const deletedSet = new Set(deletedIds);
+      loaded = loaded.filter(e => !deletedSet.has(e.id));
+    }
+
     entries.splice(0, entries.length, ...loaded);
     recalcEntriesUsingCurrentFormulas(entries);
     renderAll();
+  }
+
+  function initApp() {
+    // Check if we have a current user
+    const savedUser = localStorage.getItem(USER_CURRENT_KEY);
+    const knownUsers = getKnownUsers();
+
+    if (savedUser && knownUsers.includes(savedUser)) {
+      // Existing user
+      currentUser = savedUser;
+      populateUserSelect();
+      settings = loadSettings();
+      bodyweightInput.value = settings.bodyweight;
+      customTemplates = loadCustomTemplates();
+      initTemplates();
+      initAppData();
+    } else if (knownUsers.length > 0) {
+      // Known users exist but no current user set
+      currentUser = knownUsers[0];
+      localStorage.setItem(USER_CURRENT_KEY, currentUser);
+      populateUserSelect();
+      settings = loadSettings();
+      bodyweightInput.value = settings.bodyweight;
+      customTemplates = loadCustomTemplates();
+      initTemplates();
+      initAppData();
+    } else {
+      // First-time visitor — show modal
+      // Check for legacy data
+      showNewUserModal(true);
+    }
   }
 
   initApp();
 </script>
 </body>
 </html>
-
