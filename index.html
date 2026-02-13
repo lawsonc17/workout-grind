@@ -815,87 +815,174 @@
     }
   }
 
+  // ===== Exercise-to-skill auto-mapping =====
+  const EXERCISE_SKILL_MAP = {
+    // Push exercises
+    "bench press": "Push", "dumbbell bench": "Push", "incline bench": "Push", "decline bench": "Push",
+    "push-ups": "Push", "push ups": "Push", "diamond push-ups": "Push", "diamond push ups": "Push",
+    "dips": "Push", "tricep pull downs": "Push", "tricep pulldowns": "Push", "tricep pushdowns": "Push",
+    "tricep extensions": "Push", "skull crushers": "Push", "skullcrushers": "Push",
+    "overhead press": "Push", "shoulder press": "Push", "military press": "Push",
+    "dumbbell flies": "Push", "dumbbell flyes": "Push", "chest flies": "Push", "chest flyes": "Push",
+    "pec crossovers": "Push", "cable crossovers": "Push", "pec deck": "Push",
+    "lat push down": "Push", "lateral raise": "Push", "lateral raise machine": "Push",
+    "delt raises": "Push", "delts/floor t-raise": "Push", "front raise": "Push",
+    "hollow body negatives": "Push",
+    // Pull exercises
+    "pull ups": "Pull", "pull-ups": "Pull", "chin ups": "Pull", "chin-ups": "Pull",
+    "rows": "Pull", "single arm rows": "Pull", "barbell rows": "Pull", "dumbbell rows": "Pull",
+    "cable rows": "Pull", "seated rows": "Pull", "bent over rows": "Pull",
+    "pull down bar": "Pull", "lat pulldown": "Pull", "lat pulldowns": "Pull",
+    "face pulls": "Pull", "curls": "Pull", "bicep curls": "Pull", "hammer curls": "Pull",
+    "preacher curls": "Pull", "upright trap row": "Pull", "upright row": "Pull",
+    "rear delt machine": "Pull", "rear shoulder dumbbell raises": "Pull",
+    "rear delt flies": "Pull", "rear delt flyes": "Pull",
+    "deadlift": "Pull", "deadlifts": "Pull",
+    // Legs exercises
+    "squats": "Legs", "squat": "Legs", "goblet squats": "Legs", "front squats": "Legs",
+    "back squats": "Legs", "bulgarian squats": "Legs", "bulgarian split squats": "Legs",
+    "lunges": "Legs", "dumbbell lunge": "Legs", "dumbbell lunges": "Legs",
+    "walking lunges": "Legs", "reverse lunges": "Legs",
+    "leg press": "Legs", "leg extension": "Legs", "leg extensions": "Legs",
+    "leg curl": "Legs", "leg curls": "Legs", "hamstring curls": "Legs",
+    "hip thrusts": "Legs", "hip thrust": "Legs", "glute bridge": "Legs", "glute bridges": "Legs",
+    "cable kick back": "Legs", "cable kickback": "Legs", "cable kickbacks": "Legs",
+    "calf raises": "Legs", "calf raise": "Legs",
+    "step ups": "Legs", "step-ups": "Legs",
+    "rdl": "Legs", "romanian deadlift": "Legs",
+    // Core exercises
+    "crunches": "Core", "crunch": "Core", "sit ups": "Core", "sit-ups": "Core",
+    "planks": "Core", "plank": "Core", "side plank": "Core",
+    "v-ups": "Core", "toe touch crunch": "Core", "side crunch": "Core",
+    "wipers": "Core", "russian twists": "Core", "russian twist": "Core",
+    "leg raises": "Core", "hanging leg raises": "Core",
+    "bicycle crunches": "Core", "mountain climbers": "Core",
+    "ab wheel": "Core", "ab rollout": "Core",
+    // Cardio exercises
+    "run": "Cardio", "running": "Cardio", "jog": "Cardio", "jogging": "Cardio",
+    "sprint": "Cardio", "sprints": "Cardio",
+    "bike": "Cardio", "cycling": "Cardio", "biking": "Cardio",
+    "swim": "Cardio", "swimming": "Cardio",
+    "rowing": "Cardio", "row machine": "Cardio", "erg": "Cardio",
+    "jump rope": "Cardio", "jumping jacks": "Cardio",
+    "elliptical": "Cardio", "stairmaster": "Cardio", "stairs": "Cardio",
+    "walk": "Cardio", "walking": "Cardio", "hike": "Cardio", "hiking": "Cardio",
+    // Flexibility exercises
+    "stretch": "Flexibility", "stretching": "Flexibility",
+    "static stretch worked muscles": "Flexibility",
+    "yoga": "Flexibility", "foam roll": "Flexibility", "foam rolling": "Flexibility",
+    "mobility": "Flexibility"
+  };
+
+  function getSkillForExercise(exerciseName, fallbackSkill) {
+    if (!exerciseName) return fallbackSkill || "Push";
+    const name = exerciseName.toLowerCase().trim();
+    // Exact match first
+    if (EXERCISE_SKILL_MAP[name]) return EXERCISE_SKILL_MAP[name];
+    // Partial match: check if any key is contained in the exercise name
+    for (const [key, skill] of Object.entries(EXERCISE_SKILL_MAP)) {
+      if (name.includes(key)) return skill;
+    }
+    return fallbackSkill || "Push";
+  }
+
+  // ===== Hidden default templates tracking =====
+  const LOCAL_HIDDEN_DEFAULTS_KEY = "workoutGrindHiddenDefaults_v1";
+
+  function loadHiddenDefaults() {
+    try {
+      const raw = localStorage.getItem(getUserKey(LOCAL_HIDDEN_DEFAULTS_KEY));
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  }
+
+  function saveHiddenDefaults(arr) {
+    localStorage.setItem(getUserKey(LOCAL_HIDDEN_DEFAULTS_KEY), JSON.stringify(arr));
+  }
+
+  let hiddenDefaults = [];
+
   // ===== Templates =====
   const defaultTemplates = [
     {
       name: "Chest & Tricep 1",
       defaultSkill: "Push",
       exercises: [
-        { name: "Bench press", prescription: "4x5x135" },
-        { name: "Diamond push-ups", prescription: "3x10xBW" },
-        { name: "Tricep pull downs", prescription: "3x10x7" },
-        { name: "Lat push down", prescription: "3x10x3" },
-        { name: "Hollow body negatives", prescription: "3x5xBW" },
-        { name: "Delts/Floor T-Raise", prescription: "3x10x10" },
-        { name: "Run", prescription: "cardio:6.5x15" },
-        { name: "Static stretch worked muscles", prescription: "flex:3x10" }
+        { name: "Bench press", prescription: "4x5x135", skill: "Push" },
+        { name: "Diamond push-ups", prescription: "3x10xBW", skill: "Push" },
+        { name: "Tricep pull downs", prescription: "3x10x7", skill: "Push" },
+        { name: "Lat push down", prescription: "3x10x3", skill: "Push" },
+        { name: "Hollow body negatives", prescription: "3x5xBW", skill: "Push" },
+        { name: "Delts/Floor T-Raise", prescription: "3x10x10", skill: "Push" },
+        { name: "Run", prescription: "cardio:6.5x15", skill: "Cardio" },
+        { name: "Static stretch worked muscles", prescription: "flex:3x10", skill: "Flexibility" }
       ]
     },
     {
       name: "Back & Bicep & Delt 1",
       defaultSkill: "Pull",
       exercises: [
-        { name: "Pull ups", prescription: "3x10xBW" },
-        { name: "Single arm rows", prescription: "3x10x50" },
-        { name: "Upright trap row", prescription: "3x10x3" },
-        { name: "Lateral raise machine", prescription: "3x10x1" },
-        { name: "Rear delt machine", prescription: "3x10x2" },
-        { name: "V-ups", prescription: "3x10xBW" },
-        { name: "Run", prescription: "cardio:6.5x10" },
-        { name: "Static stretch worked muscles", prescription: "flex:3x10" }
+        { name: "Pull ups", prescription: "3x10xBW", skill: "Pull" },
+        { name: "Single arm rows", prescription: "3x10x50", skill: "Pull" },
+        { name: "Upright trap row", prescription: "3x10x3", skill: "Pull" },
+        { name: "Lateral raise machine", prescription: "3x10x1", skill: "Push" },
+        { name: "Rear delt machine", prescription: "3x10x2", skill: "Pull" },
+        { name: "V-ups", prescription: "3x10xBW", skill: "Core" },
+        { name: "Run", prescription: "cardio:6.5x10", skill: "Cardio" },
+        { name: "Static stretch worked muscles", prescription: "flex:3x10", skill: "Flexibility" }
       ]
     },
     {
       name: "Legs & Glute 1",
       defaultSkill: "Legs",
       exercises: [
-        { name: "Hip thrusts", prescription: "3x10x155" },
-        { name: "Bulgarian squats", prescription: "3x10x30" },
-        { name: "Dumbbell lunge", prescription: "3x10x30" },
-        { name: "Cable kick back", prescription: "3x10x6" },
-        { name: "Toe touch crunch", prescription: "3x25xBW" },
-        { name: "Delts/Floor T-Raise", prescription: "3x10x10" },
-        { name: "Run", prescription: "cardio:6.5x12.5" },
-        { name: "Static stretch worked muscles", prescription: "flex:3x10" }
+        { name: "Hip thrusts", prescription: "3x10x155", skill: "Legs" },
+        { name: "Bulgarian squats", prescription: "3x10x30", skill: "Legs" },
+        { name: "Dumbbell lunge", prescription: "3x10x30", skill: "Legs" },
+        { name: "Cable kick back", prescription: "3x10x6", skill: "Legs" },
+        { name: "Toe touch crunch", prescription: "3x25xBW", skill: "Core" },
+        { name: "Delts/Floor T-Raise", prescription: "3x10x10", skill: "Push" },
+        { name: "Run", prescription: "cardio:6.5x12.5", skill: "Cardio" },
+        { name: "Static stretch worked muscles", prescription: "flex:3x10", skill: "Flexibility" }
       ]
     },
     {
       name: "Chest & Tricep 2",
       defaultSkill: "Push",
       exercises: [
-        { name: "Dips", prescription: "3x10xBW" },
-        { name: "Dumbbell flies", prescription: "3x10x40" },
-        { name: "Skullcrushers", prescription: "3x10x30" },
-        { name: "Pec crossovers", prescription: "3x10x3" },
-        { name: "Side crunch", prescription: "3x10xBW" },
-        { name: "Delts/Floor T-Raise", prescription: "3x10x15" },
-        { name: "Run", prescription: "cardio:6.5x10" },
-        { name: "Static stretch worked muscles", prescription: "flex:3x10" }
+        { name: "Dips", prescription: "3x10xBW", skill: "Push" },
+        { name: "Dumbbell flies", prescription: "3x10x40", skill: "Push" },
+        { name: "Skullcrushers", prescription: "3x10x30", skill: "Push" },
+        { name: "Pec crossovers", prescription: "3x10x3", skill: "Push" },
+        { name: "Side crunch", prescription: "3x10xBW", skill: "Core" },
+        { name: "Delts/Floor T-Raise", prescription: "3x10x15", skill: "Push" },
+        { name: "Run", prescription: "cardio:6.5x10", skill: "Cardio" },
+        { name: "Static stretch worked muscles", prescription: "flex:3x10", skill: "Flexibility" }
       ]
     },
     {
       name: "Back & Bicep & Delt 2",
       defaultSkill: "Pull",
       exercises: [
-        { name: "Chin ups", prescription: "3x5xBW" },
-        { name: "Pull down bar", prescription: "3x10x110" },
-        { name: "Face pulls", prescription: "3x10x55" },
-        { name: "Curls", prescription: "3x10x25" },
-        { name: "Rear shoulder dumbbell raises", prescription: "3x10x15" },
-        { name: "Wipers", prescription: "3x10xBW" },
-        { name: "Run", prescription: "cardio:6.5x5" },
-        { name: "Static stretch worked muscles", prescription: "flex:3x10" }
+        { name: "Chin ups", prescription: "3x5xBW", skill: "Pull" },
+        { name: "Pull down bar", prescription: "3x10x110", skill: "Pull" },
+        { name: "Face pulls", prescription: "3x10x55", skill: "Pull" },
+        { name: "Curls", prescription: "3x10x25", skill: "Pull" },
+        { name: "Rear shoulder dumbbell raises", prescription: "3x10x15", skill: "Pull" },
+        { name: "Wipers", prescription: "3x10xBW", skill: "Core" },
+        { name: "Run", prescription: "cardio:6.5x5", skill: "Cardio" },
+        { name: "Static stretch worked muscles", prescription: "flex:3x10", skill: "Flexibility" }
       ]
     },
     {
       name: "Everything Workout",
       defaultSkill: "Pull",
       exercises: [
-        { name: "Chin ups", prescription: "3x10xBW" },
-        { name: "Push ups", prescription: "3x10xBW" },
-        { name: "Goblet squats", prescription: "3x10x50" },
-        { name: "Delt raises", prescription: "3x10x15" },
-        { name: "Run", prescription: "cardio:6.5x15" }
+        { name: "Chin ups", prescription: "3x10xBW", skill: "Pull" },
+        { name: "Push ups", prescription: "3x10xBW", skill: "Push" },
+        { name: "Goblet squats", prescription: "3x10x50", skill: "Legs" },
+        { name: "Delt raises", prescription: "3x10x15", skill: "Push" },
+        { name: "Run", prescription: "cardio:6.5x15", skill: "Cardio" }
       ]
     }
   ];
@@ -1413,6 +1500,7 @@
     bodyweightInput.value = settings.bodyweight;
     deletedIds = loadDeletedIds();
     customTemplates = loadCustomTemplates();
+    hiddenDefaults = loadHiddenDefaults();
     initTemplates();
     initAppData();
   }
@@ -2085,7 +2173,9 @@
         updateCardioModeUI();
       }
     } else {
-      skillInput.value = tpl.defaultSkill || "Push";
+      // Use per-exercise skill, then auto-detect, then template default
+      const exSkill = ex.skill || getSkillForExercise(ex.name, tpl.defaultSkill);
+      skillInput.value = exSkill;
       updateSkillModeUI();
       const pres = ex.prescription || "";
       if (pres.startsWith("cardio:")) {
@@ -2178,10 +2268,24 @@
       return;
     }
 
+    if (templateValue === "__restore_defaults__") {
+      if (confirm("Restore all hidden built-in routines?")) {
+        hiddenDefaults = [];
+        saveHiddenDefaults(hiddenDefaults);
+        initTemplates();
+      }
+      templateSelect.value = "";
+      templateExercisesDiv.innerHTML = '<div class="muted">Select a routine above.</div>';
+      return;
+    }
+
     let tpl = null;
+    let isBuiltin = false;
+    let builtinIdx = -1;
     if (templateValue.startsWith("builtin_")) {
-      const idx = parseInt(templateValue.slice(8), 10);
-      tpl = defaultTemplates[idx];
+      builtinIdx = parseInt(templateValue.slice(8), 10);
+      tpl = defaultTemplates[builtinIdx];
+      isBuiltin = true;
     } else if (templateValue.startsWith("custom_tpl_")) {
       const id = templateValue.slice(11);
       tpl = customTemplates.find(t => String(t.id) === id);
@@ -2202,9 +2306,10 @@
       const lastText = last
         ? `Last: ${formatEntryDetails(last)} (${last.date})`
         : "No log yet";
+      const exSkill = ex.skill || getSkillForExercise(ex.name, tpl.defaultSkill);
 
       card.innerHTML = `
-        <div><strong>${ex.name}</strong></div>
+        <div><strong>${ex.name}</strong> <span class="muted" style="font-size:0.75rem;">[${exSkill}]</span></div>
         <div class="template-prescription">Template: ${ex.prescription || ""}</div>
         <div class="template-last">${lastText}</div>
         <div>
@@ -2222,22 +2327,43 @@
 
       templateExercisesDiv.appendChild(card);
     });
+
+    // Add remove/hide button for built-in routines
+    if (isBuiltin) {
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "danger";
+      removeBtn.style.cssText = "margin-top:8px; font-size:0.8rem; padding:6px 12px;";
+      removeBtn.textContent = "Remove this routine";
+      removeBtn.addEventListener("click", () => {
+        if (!confirm(`Remove "${tpl.name}" from your routine list? You can restore it later.`)) return;
+        hiddenDefaults.push(builtinIdx);
+        saveHiddenDefaults(hiddenDefaults);
+        templateSelect.value = "";
+        initTemplates();
+      });
+      templateExercisesDiv.appendChild(removeBtn);
+    }
   }
 
   // ===== Template dropdown (with optgroups) =====
   function initTemplates() {
     templateSelect.innerHTML = '<option value="">Pick a routine...</option>';
 
-    // Built-in routines
-    const builtinGroup = document.createElement("optgroup");
-    builtinGroup.label = "Built-in routines";
-    defaultTemplates.forEach((tpl, idx) => {
-      const opt = document.createElement("option");
-      opt.value = "builtin_" + idx;
-      opt.textContent = tpl.name;
-      builtinGroup.appendChild(opt);
-    });
-    templateSelect.appendChild(builtinGroup);
+    // Built-in routines (skip hidden ones)
+    const visibleDefaults = defaultTemplates.filter((_, idx) => !hiddenDefaults.includes(idx));
+    if (visibleDefaults.length) {
+      const builtinGroup = document.createElement("optgroup");
+      builtinGroup.label = "Built-in routines";
+      defaultTemplates.forEach((tpl, idx) => {
+        if (hiddenDefaults.includes(idx)) return;
+        const opt = document.createElement("option");
+        opt.value = "builtin_" + idx;
+        opt.textContent = tpl.name;
+        builtinGroup.appendChild(opt);
+      });
+      templateSelect.appendChild(builtinGroup);
+    }
 
     // Custom routines
     if (customTemplates.length) {
@@ -2250,6 +2376,14 @@
         customGroup.appendChild(opt);
       });
       templateSelect.appendChild(customGroup);
+    }
+
+    // Restore hidden defaults option (if any are hidden)
+    if (hiddenDefaults.length > 0) {
+      const restoreOpt = document.createElement("option");
+      restoreOpt.value = "__restore_defaults__";
+      restoreOpt.textContent = "↩ Restore hidden routines (" + hiddenDefaults.length + ")";
+      templateSelect.appendChild(restoreOpt);
     }
 
     // Create new option
@@ -2274,8 +2408,10 @@
     overlay.className = "modal-overlay";
 
     let exerciseRows = isEdit
-      ? editTemplate.exercises.map(e => ({ name: e.name, prescription: e.prescription }))
-      : [{ name: "", prescription: "" }];
+      ? editTemplate.exercises.map(e => ({ name: e.name, prescription: e.prescription, skill: e.skill || "" }))
+      : [{ name: "", prescription: "", skill: "" }];
+
+    const skillOptions = ["", "Push", "Pull", "Legs", "Core", "Cardio", "Flexibility"];
 
     function renderExerciseList() {
       const container = overlay.querySelector("#tplBuilderExercises");
@@ -2284,9 +2420,15 @@
       exerciseRows.forEach((ex, i) => {
         const row = document.createElement("div");
         row.className = "tpl-builder-exercise";
+        const skillSelect = skillOptions.map(s =>
+          `<option value="${s}" ${ex.skill === s ? 'selected' : ''}>${s || "Auto"}</option>`
+        ).join("");
         row.innerHTML = `
           <div style="flex:2;">
             <input type="text" placeholder="Exercise name" value="${ex.name.replace(/"/g, '&quot;')}" data-idx="${i}" data-field="name" />
+          </div>
+          <div style="flex:1;">
+            <select data-idx="${i}" data-field="skill" style="width:100%;padding:6px 4px;font-size:0.8rem;">${skillSelect}</select>
           </div>
           <div style="flex:2;">
             <input type="text" placeholder="e.g. 3x10x135 or cardio:6.5x15" value="${ex.prescription.replace(/"/g, '&quot;')}" data-idx="${i}" data-field="prescription" />
@@ -2296,11 +2438,21 @@
         container.appendChild(row);
       });
 
-      // Wire up inputs
-      container.querySelectorAll("input").forEach(inp => {
-        inp.addEventListener("input", () => {
-          const idx = parseInt(inp.dataset.idx, 10);
-          exerciseRows[idx][inp.dataset.field] = inp.value;
+      // Wire up inputs and selects
+      container.querySelectorAll("input, select").forEach(el => {
+        const evtType = el.tagName === "SELECT" ? "change" : "input";
+        el.addEventListener(evtType, () => {
+          const idx = parseInt(el.dataset.idx, 10);
+          exerciseRows[idx][el.dataset.field] = el.value;
+          // Auto-detect skill when exercise name changes and skill is set to Auto
+          if (el.dataset.field === "name" && !exerciseRows[idx].skill) {
+            const detected = getSkillForExercise(el.value, "");
+            const skillSel = container.querySelector(`select[data-idx="${idx}"]`);
+            if (skillSel && detected) {
+              // Show detected skill as placeholder but keep value as auto
+              skillSel.title = "Auto-detected: " + detected;
+            }
+          }
         });
       });
       container.querySelectorAll(".remove-ex-btn").forEach(btn => {
@@ -2330,6 +2482,7 @@
         </select>
         <label style="margin-top:8px;">Exercises</label>
         <div class="muted" style="font-size:0.7rem; margin-bottom:4px;">
+          Skill: set per exercise or leave as "Auto" to detect automatically.<br/>
           Prescription formats: <code>3x10x135</code> (strength), <code>3x10xBW</code> (bodyweight),
           <code>cardio:6.5x15</code> (speed x min), <code>flex:3x10</code> (sets x reps)
         </div>
@@ -2351,7 +2504,7 @@
     renderExerciseList();
 
     overlay.querySelector("#tplAddExBtn").addEventListener("click", () => {
-      exerciseRows.push({ name: "", prescription: "" });
+      exerciseRows.push({ name: "", prescription: "", skill: "" });
       renderExerciseList();
     });
 
@@ -2360,7 +2513,11 @@
       const defaultSkill = overlay.querySelector("#tplBuilderSkill").value;
       const exercises = exerciseRows
         .filter(e => e.name.trim())
-        .map(e => ({ name: e.name.trim(), prescription: e.prescription.trim() }));
+        .map(e => ({
+          name: e.name.trim(),
+          prescription: e.prescription.trim(),
+          skill: e.skill || getSkillForExercise(e.name.trim(), defaultSkill)
+        }));
 
       if (!name) {
         alert("Please enter a routine name.");
@@ -2682,6 +2839,7 @@
       settings = loadSettings();
       bodyweightInput.value = settings.bodyweight;
       customTemplates = loadCustomTemplates();
+      hiddenDefaults = loadHiddenDefaults();
       initTemplates();
       initAppData();
     } else if (knownUsers.length > 0) {
@@ -2692,6 +2850,7 @@
       settings = loadSettings();
       bodyweightInput.value = settings.bodyweight;
       customTemplates = loadCustomTemplates();
+      hiddenDefaults = loadHiddenDefaults();
       initTemplates();
       initAppData();
     } else {
